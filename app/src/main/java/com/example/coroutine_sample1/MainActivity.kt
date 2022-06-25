@@ -13,32 +13,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        scope.launch {  }
+
         runBlocking {
-            Log.d("Tatsuya", "runBlocking: ${Thread.currentThread()}")
-
-            scope.launch {
-                runBlocking {
-                    Log.d("Tatsuya", "Dispatchers.MainのrunBlocking: ${Thread.currentThread()}")
-                }
-            }
-
-            scope.launch(Dispatchers.Default) {
-                runBlocking {
-                    Log.d("Tatsuya", "Dispatchers.DefaultのrunBlocking: ${Thread.currentThread()}")
-                }
-            }
-
-            scope.launch(Dispatchers.IO) {
-                withContext(Dispatchers.Main) {
-                    runBlocking {
-                        Log.d("Tatsuya", "Dispatchers.IO.DefaultでwithContextでMainに切り替えたrunBlocking: ${Thread.currentThread()}")
-                    }
-                }
-                runBlocking {
-                    Log.d("Tatsuya", "Dispatchers.IO.DefaultのrunBlocking: ${Thread.currentThread()}")
-                }
-            }
-
+            Thread.sleep(5000)
         }
+
+    }
+}
+
+class Movie {
+    suspend fun fetchTitles(): List<String> {
+        delay(1000)
+        return listOf("君の名は", "コンフィデンスマンJP", "ハリーポッター")
     }
 }
