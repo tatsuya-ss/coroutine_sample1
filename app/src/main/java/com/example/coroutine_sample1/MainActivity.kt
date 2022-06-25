@@ -14,8 +14,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         scope.launch {
-            val customName = customName("龍哉")
-            Log.d("Tatsuyað", "onCreate: ${customName}")
+            val customName1 = async { customName("たつや") }
+            val customName2 = async { customName("坂本") }
+
+            val result1 = customName1.await()
+            val result2 = customName2.await()
+            Log.d("Tatsuyað", "result1: ${result1}")
+            Log.d("Tatsuyað", "result2: ${result2}")
         }
 
     }
