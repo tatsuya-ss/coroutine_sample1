@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import kotlinx.coroutines.*
+import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,19 +15,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         scope.launch {
-            val customName1 = async { customName("たつや") }
-            val customName2 = async { customName("坂本") }
-
-            val result1 = customName1.await()
-            val result2 = customName2.await()
-            Log.d("Tatsuyað", "result1: ${result1}")
-            Log.d("Tatsuyað", "result2: ${result2}")
+            val time = measureTimeMillis {
+                val result1 = getCountInOneSecond()
+                val result2 = getCountInTwoSecond()
+                Log.d("Tatsuya", "合計は: ${result1 + result2}")
+            }
+            Log.d("Tatsuya", "かかった時間: ${time}")
         }
 
     }
 
-    private suspend fun customName(name: String): String {
+    private suspend fun getCountInOneSecond(): Int {
         delay(1000)
-        return name + "さん"
+        return 10
+    }
+
+    private suspend fun getCountInTwoSecond(): Int {
+        delay(2000)
+        return 20
     }
 }
