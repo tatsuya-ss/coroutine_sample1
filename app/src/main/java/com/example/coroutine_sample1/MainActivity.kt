@@ -16,9 +16,9 @@ class MainActivity : AppCompatActivity() {
 
         scope.launch {
             val time = measureTimeMillis {
-                val result1 = getCountInOneSecond()
-                val result2 = getCountInTwoSecond()
-                Log.d("Tatsuya", "合計は: ${result1 + result2}")
+                val result1 = async { getCountInOneSecond() }
+                val result2 = async { getCountInTwoSecond() }
+                Log.d("Tatsuya", "合計は: ${result1.await() + result2.await()}")
             }
             Log.d("Tatsuya", "かかった時間: ${time}")
         }
